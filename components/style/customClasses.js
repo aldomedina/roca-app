@@ -23,6 +23,9 @@ export const customClasses = css`
   .transparent {
     background: transparent;
   }
+  .bullets {
+    list-style-type: disc;
+  }
   /* Flexbox */
   .d-flex {
     display: flex;
@@ -54,6 +57,11 @@ export const customClasses = css`
   .justify-end {
     justify-content: flex-end;
   }
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   /* Font */
   .bagnard {
@@ -64,6 +72,9 @@ export const customClasses = css`
   }
   .uppercase {
     text-transform: uppercase;
+  }
+  .bold {
+    font-weight: bold;
   }
 
   /* Padding & Margin */
@@ -91,6 +102,9 @@ export const customClasses = css`
   .ml {
     margin-left: 1rem;
   }
+  .mt {
+    margin-top: 1rem;
+  }
   .mr {
     margin-right: 1rem;
   }
@@ -108,5 +122,8 @@ export const customClasses = css`
   }
   .mb-7 {
     margin-bottom: 7px;
+  }
+  .mb-3 {
+    margin-bottom: 3px;
   }
 `;

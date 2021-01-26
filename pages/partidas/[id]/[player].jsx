@@ -14,135 +14,17 @@ import Inventory from "../../../components/Inventory";
 import ExpandableList from "../../../components/ExpandableList";
 import HP from "../../../components/HP";
 import HPControls from "../../../components/HPControls";
-
-const fetchedPlayer = {
-  id: 9,
-  slug: "chorizo-print",
-  name: "Chorizo Print",
-  party: "misterios-de-los-iliadis",
-  class: "Druide",
-  color: "blue",
-  stats: {
-    level: 2,
-    hp: { total: 55, active: 17 },
-    attributes: {
-      fuerza: { points: 2, ts: false },
-      destreza: { points: 0, ts: true },
-      intuicion: { points: 0, ts: false },
-      constitucion: { points: -1, ts: true },
-      sabiduria: { points: 3, ts: false },
-      carisma: { points: 4, ts: false },
-    },
-    combat: {
-      evasion: 6,
-      armadura: 8,
-      iniciativa: 3,
-      golpe: 1,
-    },
-    resistances: [
-      {
-        name: "Fuego",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus at urna in gravida. Nullam sodales porta sapien nec convallis.",
-      },
-      {
-        name: "Muerte",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus at urna in gravida. Nullam sodales porta sapien nec convallis.",
-      },
-    ],
-    skills: [
-      {
-        name: "Misil arcano",
-        dices: 3,
-        dice: 4,
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus at urna in gravida. Nullam sodales porta sapien nec convallis.",
-      },
-      {
-        name: "Abanico arcano",
-        dices: 3,
-        dice: 4,
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus at urna in gravida. Nullam sodales porta sapien nec convallis.",
-      },
-    ],
-  },
-  items: {
-    active: [
-      {
-        name: "Armadura de cuero",
-        icon: "armor",
-        attributes: [
-          { type: "intuicion", points: 3 },
-          { type: "carisma", points: -1 },
-        ],
-        combat: [{ type: "armadura", points: 10 }],
-        resistances: [
-          {
-            name: "Hielo",
-            description: "Viene del equipamiento",
-          },
-          {
-            name: "Muerte",
-            description:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus at urna in gravida. Nullam sodales porta sapien nec convallis.",
-          },
-        ],
-      },
-    ],
-    backpack: [{}],
-  },
-};
-
-const MainWrapper = styled.div`
-  padding: 5vw calc(5vw - 1px);
-  width: 100vw;
-  height: ${({ theme }) => theme.vh * 100 + "px"};
-  background: ${({ theme, color }) => theme.colors["light" + color]};
-  color: ${({ theme, color }) => theme.colors[color]};
-`;
-
-const Wrapper = styled.div`
-  border: ${({ theme, color }) => "1px solid" + theme.colors[color]};
-  ${({ position }) => !!position && "position: " + position};
-  ${({ minHeight }) => !!minHeight && "min-height: calc(10vw + 2px)"};
-`;
-
-const ListWrapper = styled.div`
-  border-right: ${({ theme, color, border }) =>
-    !!border && "2px solid" + theme.colors[color]};
-  width: ${({ size }) => size * 10 + "vw"};
-  height: max-content;
-`;
-
-const StyledName = styled.h2`
-  color: ${({ theme, color }) => theme.colors[color]};
-`;
-
-const ListContainer = styled(PatternBox)`
-  border: ${({ theme, color }) => "1px solid" + theme.colors[color]};
-`;
-
-const Panel = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  border: ${({ theme, color }) => "solid" + theme.colors[color]};
-  border-width: ${({ borderWidth }) => borderWidth};
-  background: ${({ theme, color, noBg }) =>
-    !noBg && theme.colors["light" + color]};
-  transition: ${({ theme }) => theme.transition03};
-`;
-
-const SidePanel = styled(Panel)`
-  transform: ${({ isOpen }) =>
-    !!isOpen ? "translateX(0)" : "translateX(100%)"};
-`;
-const LowPanel = styled(Panel)`
-  transform: ${({ isOpen }) =>
-    !!isOpen ? "translateY(0)" : "translateY(100%)"};
-`;
+import {
+  MainWrapper,
+  Wrapper,
+  ListWrapper,
+  StyledName,
+  ListContainer,
+  Panel,
+  SidePanel,
+  LowPanel,
+} from "./styled";
+import fetchedPlayer from "./mock";
 
 export default function Player() {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
@@ -347,7 +229,7 @@ export default function Player() {
                   bgColor={`light${details.color}`}
                   margin={1}
                 >
-                  <div className="full d-flex align-center justify-center uppercase">
+                  <div className="full flex-center uppercase">
                     <h5 className="bagnard">Druida</h5>
                   </div>
                 </GridChild>
@@ -411,7 +293,7 @@ export default function Player() {
                   <GameButton
                     onClick={() => setIsSidePanelOpen("inventory")}
                     color={details.color}
-                    className="full justify-center align-center d-flex flex-column"
+                    className="full flex-center flex-column"
                   >
                     <div className="d-flex align-center mb-7">
                       <h5 className="bagnard mt-3">EQUIPAMIENTO</h5>
@@ -495,7 +377,7 @@ export default function Player() {
             </LowPanel>
           </Wrapper>
 
-          {/* CONTROLS */}
+          {/* SAVE & EXIT CONTROLS */}
           <Wrapper color={details.color} className="full-w" minHeight>
             <GridContainer bgColor={details.color}>
               <GridChild
@@ -506,7 +388,7 @@ export default function Player() {
                 bgColor={`light${details.color}`}
                 margin={1}
               >
-                <div className="d-flex full justify-center align-center">
+                <div className="full flex-center">
                   <Icon icon="save" size="22px" color={details.color} />
                 </div>
               </GridChild>
@@ -518,7 +400,7 @@ export default function Player() {
                 bgColor={`light${details.color}`}
                 margin={1}
               >
-                <div className="d-flex full justify-center align-center">
+                <div className="full flex-center">
                   <Icon icon="exit" size="22px" color={details.color} />
                 </div>
               </GridChild>

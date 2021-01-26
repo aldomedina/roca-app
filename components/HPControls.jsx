@@ -54,10 +54,9 @@ const HPControls = ({
       </GameButton>
       <GameButton
         borderWidth={"2px 0 0 2px "}
-        className="d-flex justify-center align-center full text-align-center bagnard"
+        className="d-flex justify-center align-center full text-align-center bagnard grow-1"
         color={color}
         onClick={handleMax}
-        w={2}
       >
         <h5>
           MAX
