@@ -45,11 +45,26 @@ export default function App({ Component, pageProps }) {
     });
   });
 
+  const goFullscreen = () => {
+    let elem = document.getElementById("__next");
+
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      /* Safari */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      /* IE11 */
+      elem.msRequestFullscreen();
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={{ ...theme, vh }}>
         <Component {...pageProps} />
+        <button onClick={goFullscreen}>FULLSCREEN</button>
       </ThemeProvider>
     </>
   );

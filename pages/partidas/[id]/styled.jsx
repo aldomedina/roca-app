@@ -42,8 +42,9 @@ export const Panel = styled.div`
 `;
 
 export const SidePanel = styled(Panel)`
-  transform: ${({ isOpen }) =>
-    !!isOpen ? "translateX(0)" : "translateX(100%)"};
+  position: absolute;
+  top: 0;
+  left: ${({ isOpen }) => (!!isOpen ? "0" : "90vw")};
 `;
 export const LowPanel = styled(Panel)`
   transform: ${({ isOpen }) =>

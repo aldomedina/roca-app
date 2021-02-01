@@ -4,15 +4,17 @@ import { Icon, RotatePlus } from "./styled/Icon";
 
 const VisibleSection = styled.div`
   min-height: 13vw;
+  color: ${({ theme, color }) => theme.colors[color]};
 `;
 
 const ExpandableSection = styled.div`
-  transition: ${({ theme }) => theme.transition03};
+  transition: height 0.3s ease-in-out;
   height: ${({ isOpen, height }) => (isOpen ? `${height}px` : 0)};
   overflow: hidden;
 `;
 
-const ExpandableItem = ({ item, color, inventory }) => {
+const ExpandableItem = ({ item, color }) => {
+  if (!item) return "";
   const targetRef = useRef();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +28,10 @@ const ExpandableItem = ({ item, color, inventory }) => {
 
   return (
     <div className="d-flex flex-column">
-      <VisibleSection className="full d-flex align-center justify-between">
+      <VisibleSection
+        className="full d-flex align-center justify-between"
+        color={color}
+      >
         <div className="d-flex align-center">
           {!!item.icon && (
             <Icon icon={item.icon} color={color} className="mr" />

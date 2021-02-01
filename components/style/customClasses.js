@@ -19,7 +19,13 @@ export const customClasses = css`
   }
   .overflowY-scroll {
     overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+
   .transparent {
     background: transparent;
   }
@@ -76,13 +82,28 @@ export const customClasses = css`
   .bold {
     font-weight: bold;
   }
+  .heavy {
+    font-weight: 900;
+  }
+  .small {
+    font-size: smaller;
+  }
+  .vertical-align-base {
+    vertical-align: baseline;
+  }
 
   /* Padding & Margin */
+  .p {
+    padding: 1rem;
+  }
   .pl {
     padding-left: 1rem;
   }
   .pr {
     padding-right: 1rem;
+  }
+  .pt {
+    padding-top: 1rem;
   }
   .px {
     padding: 0 1rem;

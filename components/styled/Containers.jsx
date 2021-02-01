@@ -10,6 +10,7 @@ export const Box2x2 = styled.div`
 export const Box10vw = styled.div`
   ${({ w }) => `width: ${10 * w}vw`};
   ${({ h }) => `height:${10 * h}vw`};
+  ${({ mh }) => `min-height:${10 * mh}vw`};
   background-color: ${({ theme, color }) => theme.colors["light" + color]};
   border: solid ${({ theme, color }) => theme.colors[color]};
   border-width: ${({ borderWidth }) => (borderWidth ? borderWidth : 0)};

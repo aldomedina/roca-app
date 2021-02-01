@@ -1,5 +1,6 @@
 import Head from "next/head";
-import styled from "styled-components";
+import fetchedPlayer from "./mock";
+import { removeRepeatedObj, vibrate } from "../../../assets";
 
 import { CircleButton, GameButton } from "../../../components/styled/Button";
 import {
@@ -9,11 +10,12 @@ import {
 import { Icon } from "../../../components/styled/Icon";
 import { PatternBox } from "../../../components/styled/Containers";
 import { useEffect, useState } from "react";
-import Atribute from "../../../components/Atribute";
+import Attribute from "../../../components/Attribute";
 import Inventory from "../../../components/Inventory";
 import ExpandableList from "../../../components/ExpandableList";
 import HP from "../../../components/HP";
 import HPControls from "../../../components/HPControls";
+
 import {
   MainWrapper,
   Wrapper,
@@ -24,19 +26,17 @@ import {
   SidePanel,
   LowPanel,
 } from "./styled";
-import fetchedPlayer from "./mock";
 
 export default function Player() {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const [isLowPanelOpen, setIsLowPanelOpen] = useState(false);
   const [details, setDetails] = useState({});
   const [stats, setStats] = useState({});
-  const [activeStats, setActiveStats] = useState({
+  const [modifier, setModifier] = useState({
     attributes: {},
     combat: {},
     resistances: [],
     hp: {},
-    equiped: [],
   });
   const [activeItems, setActiveItems] = useState([]);
   const [backpack, setBackpack] = useState([]);
@@ -44,77 +44,104 @@ export default function Player() {
   useEffect(() => {
     setDetails(fetchedPlayer);
     setStats(fetchedPlayer.stats);
-    setActiveStats({ ...fetchedPlayer.stats, equiped: [] });
     setActiveItems(fetchedPlayer.items.active);
     setBackpack(fetchedPlayer.items.backpack);
   }, []);
 
   useEffect(() => {
-    setActiveStats(state => ({ ...state, equiped: [] }));
-    activeItems.map(item => {
-      if (!activeStats.equiped.find(el => el === item.name)) {
-        if (!!item.attributes && !!item.attributes.length) {
-          item.attributes.map(att =>
-            setActiveStats(state => ({
-              ...state,
-              attributes: {
-                ...state.attributes,
-                [att.type]: {
-                  ...state.attributes[att.type],
-                  points: stats.attributes[att.type].points + att.points,
-                },
-              },
-            }))
-          );
-        }
-        if (!!item.combat && !!item.combat.length) {
-          item.combat.map(att =>
-            setActiveStats(state => ({
-              ...state,
-              combat: {
-                ...state.combat,
-                [att.type]: stats.combat[att.type] + att.points,
-              },
-            }))
-          );
-        }
-        if (!!item.resistances && !!item.resistances.length) {
-          item.resistances.map(resist => {
-            if (!activeStats.resistances.find(el => el.name === resist.name)) {
-              setActiveStats(state => ({
-                ...state,
-                resistances: [...state.resistances, resist],
-              }));
-            }
+    console.log("modifier changed", modifier);
+  }, [modifier]);
+
+  useEffect(() => {
+    if (stats && stats.attributes) {
+      const modifier = {
+        resistances: [],
+        attributes: {},
+        combat: {},
+      };
+      activeItems.map(item => {
+        // attributes && combat
+        ["attributes", "combat"].map(mod => {
+          item[mod].map(att => {
+            if (!!att && !!att.type)
+              modifier[mod][att.type] = modifier[mod][att.type]
+                ? modifier[mod][att.type] + att.points
+                : att.points;
           });
-        }
-        setActiveStats(state => ({
-          ...state,
-          equiped: [...state.equiped, item.name],
-        }));
-      }
-    });
+        });
+        item.resistances &&
+          item.resistances.length &&
+          item.resistances.map(
+            res =>
+              !modifier.resistances.find(el => el.name === res.name) &&
+              modifier.resistances.push(res)
+          );
+      });
+      setModifier(modifier);
+    }
   }, [activeItems]);
 
-  const handleMax = () =>
+  const handleMax = () => {
+    vibrate(300);
     setStats(stats => ({
       ...stats,
       hp: { ...stats.hp, active: stats.hp.total },
     }));
+  };
 
-  const handleAddHP = () =>
+  const handleAddHP = () => {
     stats.hp.active < stats.hp.total &&
-    setStats(stats => ({
-      ...stats,
-      hp: { ...stats.hp, active: stats.hp.active + 1 },
-    }));
+      setStats(stats => ({
+        ...stats,
+        hp: { ...stats.hp, active: stats.hp.active + 1 },
+      }));
+    vibrate();
+  };
 
-  const handleSubstractHP = () =>
+  const handleSubstractHP = () => {
     stats.hp.active > 0 &&
-    setStats(stats => ({
-      ...stats,
-      hp: { ...stats.hp, active: stats.hp.active - 1 },
-    }));
+      setStats(stats => ({
+        ...stats,
+        hp: { ...stats.hp, active: stats.hp.active - 1 },
+      }));
+    vibrate();
+  };
+
+  const inventoryOnDragEnd = result => {
+    const { destination, source, draggableId } = result;
+    vibrate();
+    if (!destination) return;
+
+    // check if location of draggable change
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    )
+      return;
+
+    const start =
+      source.droppableId === "backpack" ? [...backpack] : [...activeItems];
+    const finish =
+      destination.droppableId === "backpack" ? [...backpack] : [...activeItems];
+
+    const item = start[source.index];
+    if (source.droppableId === destination.droppableId) {
+      start.splice(source.index, 1);
+      start.splice(destination.index, 0, item);
+      destination.droppableId === "backpack"
+        ? setBackpack(start)
+        : setActiveItems(start);
+    } else {
+      start.splice(source.index, 1);
+      finish.splice(destination.index, 0, item);
+      destination.droppableId === "backpack"
+        ? setBackpack(finish)
+        : setActiveItems(finish);
+      source.droppableId === "backpack"
+        ? setBackpack(start)
+        : setActiveItems(start);
+    }
+  };
 
   const getActivePanel = (panel, color) =>
     ({
@@ -125,6 +152,7 @@ export default function Player() {
           handleAddItem={addItemToBackpack}
           equiped={activeItems}
           backpack={backpack}
+          onDragEnd={inventoryOnDragEnd}
         />
       ),
       level: <div>level</div>,
@@ -148,11 +176,10 @@ export default function Player() {
             color={details.color}
             position={"relative"}
             isSidePanelOpen={isSidePanelOpen}
-            className="full-w grow-1 mb-5vw  overflow-hidden"
-            overflow={"scroll"}
+            className="full grow-1 mb-5vw overflow-hidden"
           >
             {/* MAIN GRID */}
-            <div className="full d-flex flex-column overflowY-scroll">
+            <div className="full d-flex flex-column overflowY-scroll hide-scrollbar">
               <GridContainer bgColor={details.color}>
                 {/* PLAYER DETAILS */}
                 <GridChild
@@ -235,9 +262,9 @@ export default function Player() {
                 </GridChild>
 
                 {/* ATTRIBUTES */}
-                {Object.keys(activeStats.attributes).map((a, i) => (
+                {Object.keys(stats.attributes).map((a, i) => (
                   <GridChild
-                    key={`atribute-${i}`}
+                    key={`attribute-${i}`}
                     column={i === 0 || i === 3 ? 1 : i === 1 || i === 4 ? 4 : 7}
                     columnSpan={3}
                     row={i < 3 ? 5 : 7}
@@ -245,17 +272,23 @@ export default function Player() {
                     bgColor={`light${details.color}`}
                     margin={1}
                   >
-                    <Atribute
+                    <Attribute
                       name={a}
-                      ts={activeStats.attributes[a].ts}
-                      points={activeStats.attributes[a].points}
+                      ts={stats.attributes[a].ts}
+                      points={stats.attributes[a].points}
+                      modifier={
+                        !!modifier &&
+                        !!modifier.attributes &&
+                        !!modifier.attributes[a] &&
+                        modifier.attributes[a]
+                      }
                       color={details.color}
                     />
                   </GridChild>
                 ))}
 
                 {/* COMBAT STATS */}
-                {Object.keys(activeStats.combat).map((c, i) => (
+                {Object.keys(stats.combat).map((c, i) => (
                   <GridChild
                     key={`combat-${i}`}
                     column={1}
@@ -269,7 +302,16 @@ export default function Player() {
                       <p>
                         <strong>{c}</strong>
                       </p>
-                      <span>{activeStats.combat[c]}</span>
+                      <p className="vertical-align-base">
+                        <span className="heavy">{stats.combat[c]}</span>
+                        {!!modifier.combat[c] && (
+                          <span className="small">
+                            {modifier.combat[c] > 0
+                              ? " +" + modifier.combat[c]
+                              : " " + modifier.combat[c].toString()}
+                          </span>
+                        )}
+                      </p>
                     </div>
                   </GridChild>
                 ))}
@@ -324,7 +366,8 @@ export default function Player() {
                   <ExpandableList
                     title="RESIST."
                     color={details.color}
-                    list={activeStats.resistances}
+                    list={stats.resistances}
+                    modifier={modifier.resistances}
                     addItem={() => console.log("add item")}
                   />
                 </ListWrapper>

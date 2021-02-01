@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { removeRepeatedObj } from "../assets";
 import ExpandableItem from "./ExpandableItem";
 
 import { CircleButton } from "./styled/Button";
@@ -29,7 +30,11 @@ const ItemLi = styled.li`
   }
 `;
 
-const ExpandableList = ({ addItem, title, color, list }) => {
+const ExpandableList = ({ addItem, title, color, list, modifier }) => {
+  const displayedList =
+    modifier && modifier.length
+      ? removeRepeatedObj([...list, ...modifier])
+      : list;
   return (
     <Wrapper color={color}>
       <Title className="d-flex align-center justify-between ">
@@ -44,9 +49,9 @@ const ExpandableList = ({ addItem, title, color, list }) => {
         )}
       </Title>
       <ul className="px-7">
-        {!!list &&
-          !!list.length &&
-          list.map(item => (
+        {!!displayedList &&
+          !!displayedList.length &&
+          displayedList.map(item => (
             <ItemLi key={item.name} color={color} className="full-w">
               <ExpandableItem item={item} color={color} />
             </ItemLi>

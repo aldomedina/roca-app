@@ -44,6 +44,12 @@ export default class MyDocument extends Document {
           />
           <link
             rel="preload"
+            href="/fonts/agrandir/Agrandir-GrandHeavy.otf"
+            as="font"
+            crossOrigin=""
+          />
+          <link
+            rel="preload"
             href="/fonts/bagnard/Bagnard.otf"
             as="font"
             crossOrigin=""

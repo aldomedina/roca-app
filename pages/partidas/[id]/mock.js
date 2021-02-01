@@ -54,6 +54,7 @@ export default {
   items: {
     active: [
       {
+        id: 3212131,
         name: "Armadura de cuero",
         icon: "armor",
         attributes: [
@@ -76,46 +77,59 @@ export default {
         ],
       },
       {
+        id: 2423324,
         name: "Vara fixe",
         icon: "wand",
-        attributes: [{ type: "sabiduria", points: 10 }],
+        attributes: [
+          { type: "sabiduria", points: 10 },
+          { type: "intuicion", points: 3 },
+        ],
         combat: [],
         description:
           "Lorem ipsum dolor sit.  In cursus at urna in gravida. Nullam sodales",
-        resistances: [],
+        resistances: [
+          {
+            name: "Hielo",
+            description: "Viene del equipamiento",
+          },
+        ],
       },
     ],
     backpack: [
       {
+        id: 34663,
         name: "Escudo ligero",
         icon: "shield",
+        description: "Lorem ipsum dolor sit.",
         attributes: [],
         combat: [{ type: "armadura", points: 8 }],
-        description: "Lorem ipsum dolor sit.",
         resistances: [],
       },
       {
+        id: 4342,
         name: "Botas de cuero",
         icon: "boots",
+        description: "Lorem ipsum dolor sit.",
         attributes: [],
         combat: [{ type: "evasion", points: 2 }],
-        description: "Lorem ipsum dolor sit.",
         resistances: [],
       },
       {
+        id: 71575,
         name: "Capa",
         icon: "cape",
+        description: "Lorem ipsum dolor sit.",
         attributes: [{ type: "destreza", points: 3 }],
         combat: [{ type: "armadura", points: 1 }],
-        description: "Lorem ipsum dolor sit.",
         resistances: [],
       },
       {
+        id: 9906,
         name: "Collar cuático",
         icon: "necklace",
-        attributes: [],
-        attributes: [{ type: "sabiduria", points: 3 }],
         description: "Lorem ipsum dolor sit.",
+        attributes: [{ type: "sabiduria", points: 3 }],
+        combat: [],
         resistances: [
           {
             name: "Hielo",
@@ -124,11 +138,62 @@ export default {
         ],
       },
       {
+        id: 7435,
         name: "Casco brigido",
         icon: "helmet",
+        description: "Lorem ipsum dolor sit.",
         attributes: [],
         combat: [{ type: "armadura", points: 3 }],
+        resistances: [],
+      },
+      {
+        id: 346631,
+        name: "Escudo ligero",
+        icon: "shield",
         description: "Lorem ipsum dolor sit.",
+        attributes: [],
+        combat: [{ type: "armadura", points: 8 }],
+        resistances: [],
+      },
+      {
+        id: 43421,
+        name: "Botas de cuero",
+        icon: "boots",
+        description: "Lorem ipsum dolor sit.",
+        attributes: [],
+        combat: [{ type: "evasion", points: 2 }],
+        resistances: [],
+      },
+      {
+        id: 715751,
+        name: "Capa",
+        icon: "cape",
+        description: "Lorem ipsum dolor sit.",
+        attributes: [{ type: "destreza", points: 3 }],
+        combat: [{ type: "armadura", points: 1 }],
+        resistances: [],
+      },
+      {
+        id: 99061,
+        name: "Collar cuático",
+        icon: "necklace",
+        description: "Lorem ipsum dolor sit.",
+        attributes: [{ type: "sabiduria", points: 3 }],
+        combat: [],
+        resistances: [
+          {
+            name: "Hielo",
+            description: "Viene del equipamiento",
+          },
+        ],
+      },
+      {
+        id: 74351,
+        name: "Casco brigido",
+        icon: "helmet",
+        description: "Lorem ipsum dolor sit.",
+        attributes: [],
+        combat: [{ type: "armadura", points: 3 }],
         resistances: [],
       },
     ],
