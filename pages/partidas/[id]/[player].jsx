@@ -1,5 +1,5 @@
 import Head from "next/head";
-import fetchedPlayer from "./mock";
+import fetchedPlayer from "../../../assets/mock";
 import { removeRepeatedObj, vibrate } from "../../../assets";
 
 import { CircleButton, GameButton } from "../../../components/styled/Button";
@@ -25,7 +25,7 @@ import {
   Panel,
   SidePanel,
   LowPanel,
-} from "./styled";
+} from "../../../components/StyledPlayer";
 
 export default function Player() {
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PatternBox } from "../../../components/styled/Containers";
+import { PatternBox } from "../styled/Containers";
 
 export const MainWrapper = styled.div`
   padding: 5vw calc(5vw - 1px);
