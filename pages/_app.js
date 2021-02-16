@@ -64,7 +64,7 @@ export default function App({ Component, pageProps }) {
       <GlobalStyle />
       <ThemeProvider theme={{ ...theme, vh }}>
         <Component {...pageProps} />
-        <button onClick={goFullscreen}>FULLSCREEN</button>
+        {/* <button onClick={goFullscreen}>FULLSCREEN</button> */}
       </ThemeProvider>
     </>
   );

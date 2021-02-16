@@ -1,7 +1,8 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
+
 import fetchedPlayer from "../../../assets/mock";
 import { removeRepeatedObj, vibrate } from "../../../assets";
-
 import { CircleButton, GameButton } from "../../../components/styled/Button";
 import {
   GridChild,
@@ -40,7 +41,7 @@ export default function Player() {
   });
   const [activeItems, setActiveItems] = useState([]);
   const [backpack, setBackpack] = useState([]);
-
+  const router = useRouter();
   useEffect(() => {
     setDetails(fetchedPlayer);
     setStats(fetchedPlayer.stats);
@@ -443,7 +444,7 @@ export default function Player() {
                 bgColor={`light${details.color}`}
                 margin={1}
               >
-                <div className="full flex-center">
+                <div className="full flex-center" onClick={() => router.back()}>
                   <Icon icon="exit" size="22px" color={details.color} />
                 </div>
               </GridChild>
